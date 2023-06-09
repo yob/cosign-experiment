@@ -1,4 +1,7 @@
 steps:
   - command: ".buildkite/steps/build-sign"
     label: ":docker:"
+    artifact_paths:
+      - "fulcio.crt"
+
 
