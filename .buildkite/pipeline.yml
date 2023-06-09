@@ -1,0 +1,4 @@
+steps:
+  - command: ".buildkite/steps/build-sign"
+    label: ":docker:"
+

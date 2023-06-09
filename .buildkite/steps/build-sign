@@ -1,0 +1,25 @@
+#!/bin/sh 
+
+set -e
+
+echo "+++ fetching OIDC token from Buildkite"
+
+# Now fetch an OIDC token from Buildkite. Audience must be "sigstore", as required by fulcio
+# SIGSTORE_ID_TOKEN is a special ENV that cosign looks for. It will use the OIDC token it finds
+# there to request a short term x.509 certificate from sigstore/fulcio, and then sign the
+# image with it
+SIGSTORE_ID_TOKEN="$(buildkite-agent oidc request-token --audience sigstore)"
+
+echo "+++ creating signed image"
+
+# append new data to the README to ensure the docker image busts cache and has
+# a new layer
+echo `date --iso-8601=seconds` > README.md
+
+docker build . -t "cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+
+cosign sign "cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+
+#echo "+++ examine the signature"
+
+#git cat-file commit HEAD | sed -n '/BEGIN/, /END/p' | sed 's/^ //g' | sed 's/gpgsig //g' | sed 's/SIGNED MESSAGE/PKCS7/g' | openssl pkcs7 -print -print_certs -text
