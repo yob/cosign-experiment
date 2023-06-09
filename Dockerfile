@@ -1,4 +1,4 @@
-FROM ruby:3.2@sha256:5efd846bccfafcabada226808406275e92269889467d571e897afc104e8c76c9
+FROM ruby:3.2-slim-buster@sha256:aaf31982a84c7543a44814bf3e2dc8f8512eeeda0a7d70fe8226edbbd529dc2f
 
 ADD README.md .
 
