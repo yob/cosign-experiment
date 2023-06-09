@@ -16,9 +16,13 @@ echo "+++ creating signed image"
 # a new layer
 echo `date --iso-8601=seconds` > README.md
 
-docker build . -t "jameshealy/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+echo $GITHUB_TOKEN | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
 
-cosign sign "jameshealy/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+
+docker build . -t "${IMAGE_NAME}"
+
+cosign sign "${IMAGE_NAME}"
 
 #echo "+++ examine the signature"
 
