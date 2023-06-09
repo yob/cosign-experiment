@@ -23,7 +23,7 @@ IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBE
 docker build . -t "${IMAGE_NAME}"
 docker push "${IMAGE_NAME}"
 
-cosign sign "${IMAGE_NAME}"
+cosign sign --yes "${IMAGE_NAME}"
 
 #echo "+++ examine the signature"
 
