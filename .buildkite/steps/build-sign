@@ -16,9 +16,9 @@ echo "+++ creating signed image"
 # a new layer
 echo `date --iso-8601=seconds` > README.md
 
-docker build . -t "cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+docker build . -t "jameshealy/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
 
-cosign sign "cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
+cosign sign "jameshealy/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
 
 #echo "+++ examine the signature"
 
