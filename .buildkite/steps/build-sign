@@ -21,6 +21,7 @@ docker login -u "${GITHUB_USERNAME}" --password "${GITHUB_TOKEN}" ghcr.io
 IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
 
 docker build . -t "${IMAGE_NAME}"
+docker push "${IMAGE_NAME}"
 
 cosign sign "${IMAGE_NAME}"
 
