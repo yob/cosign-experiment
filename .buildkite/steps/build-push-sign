@@ -23,12 +23,12 @@ IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBE
 docker build . -t "${IMAGE_NAME}"
 
 #IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "${IMAGE_NAME}")
-IMAGE_DIGEST=$(docker manifest inspect ${IMAGE_NAME} -v | jq '.Descriptor.digest')
-echo "IMAGE_DIGEST: ${IMAGE_DIGEST}"
-
-cosign sign --yes --output-certificate fulcio.crt "${IMAGE_DIGEST}"
-
-docker push "${IMAGE_NAME}"
+#IMAGE_DIGEST=$(docker manifest inspect ${IMAGE_NAME} -v | jq '.Descriptor.digest')
+#echo "IMAGE_DIGEST: ${IMAGE_DIGEST}"
+#
+#cosign sign --yes --output-certificate fulcio.crt "${IMAGE_DIGEST}"
+#
+#docker push "${IMAGE_NAME}"
 
 #echo "+++ examine the signature"
 
