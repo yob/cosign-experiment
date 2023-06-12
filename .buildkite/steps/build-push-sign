@@ -26,9 +26,9 @@ IMAGE_DIGEST=$(cat metadata.json | jq -r '."containerimage.digest"')
 
 echo "IMAGE_DIGEST: ${IMAGE_DIGEST}"
 
-cosign sign --yes --output-certificate fulcio.crt "${IMAGE_NAME}@${IMAGE_DIGEST}"
-
 docker push "${IMAGE_NAME}"
+
+cosign sign --yes --output-certificate fulcio.crt "${IMAGE_NAME}@${IMAGE_DIGEST}"
 
 #echo "+++ examine the signature"
 
