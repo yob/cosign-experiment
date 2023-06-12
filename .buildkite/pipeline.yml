@@ -1,5 +1,5 @@
 steps:
-  - command: ".buildkite/steps/build-sign"
+  - command: ".buildkite/steps/build-push-sign"
     label: ":docker:"
     artifact_paths:
       - "fulcio.crt"
