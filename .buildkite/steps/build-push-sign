@@ -22,7 +22,7 @@ IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBE
 
 docker buildx build --metadata-file metadata.json -t "${IMAGE_NAME}" .
 
-IMAGE_DIGEST=$(cat metadata.json | jq '."containerimage.digest"')
+IMAGE_DIGEST=$(cat metadata.json | jq -r '."containerimage.digest"')
 
 echo "IMAGE_DIGEST: ${IMAGE_DIGEST}"
 
