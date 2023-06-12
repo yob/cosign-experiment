@@ -20,15 +20,15 @@ echo "${GITHUB_TOKEN}" | docker login -u "${GITHUB_USERNAME}" --password-stdin g
 
 IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
 
-docker build . -t "${IMAGE_NAME}"
+docker buildx build --metadata-file metadata.json -t "${IMAGE_NAME}" .
 
-docker push "${IMAGE_NAME}"
+IMAGE_DIGEST=$(cat metadata.json | jq '."containerimage.digest"')
 
-#IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "${IMAGE_NAME}")
-IMAGE_DIGEST=$(docker manifest inspect ${IMAGE_NAME} -v | jq '.Descriptor.digest')
 echo "IMAGE_DIGEST: ${IMAGE_DIGEST}"
 
-cosign sign --yes --output-certificate fulcio.crt "${IMAGE_DIGEST}"
+cosign sign --yes --output-certificate fulcio.crt "${IMAGE_NAME}@${IMAGE_DIGEST}"
+
+docker push "${IMAGE_NAME}"
 
 #echo "+++ examine the signature"
 
