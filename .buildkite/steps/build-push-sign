@@ -24,12 +24,8 @@ docker buildx build --metadata-file metadata.json --push -t "${IMAGE_NAME}" .
 
 IMAGE_DIGEST=$(cat metadata.json | jq -r '."containerimage.digest"')
 
-echo "IMAGE_DIGEST: ${IMAGE_DIGEST}"
-
-#docker push "${IMAGE_NAME}"
-
 cosign sign --yes --output-certificate fulcio.crt "${IMAGE_NAME}@${IMAGE_DIGEST}"
 
-#echo "+++ examine the signature"
+echo "+++ examine the certificate"
 
-#git cat-file commit HEAD | sed -n '/BEGIN/, /END/p' | sed 's/^ //g' | sed 's/gpgsig //g' | sed 's/SIGNED MESSAGE/PKCS7/g' | openssl pkcs7 -print -print_certs -text
+openssl x509 -in fulcio.crt -text -noout
