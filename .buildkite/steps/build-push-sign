@@ -18,12 +18,19 @@ echo `date --iso-8601=seconds` > README.md
 
 echo "${GITHUB_TOKEN}" | docker login -u "${GITHUB_USERNAME}" --password-stdin ghcr.io
 
+
 IMAGE_NAME="ghcr.io/${GITHUB_USERNAME}/cosign-experiment:${BUILDKITE_BUILD_NUMBER}"
 
+# Build **and ** push the new image. At this point it's not signed yet, but we save a local metadata file that contains the
+# image digest that we can use to sign the correct image even if the registry is malicious.
+#
+# Not that we're using `buildx`. The traditional `docker build` command will mutate the image
+# digest on push so there's no build locally and then sign using a trusted digest.
 docker buildx build --metadata-file metadata.json --push -t "${IMAGE_NAME}" .
 
 IMAGE_DIGEST=$(cat metadata.json | jq -r '."containerimage.digest"')
 
+# now we can sign! This includes pushing the signature to the registry as well
 cosign sign --yes --output-certificate fulcio.crt "${IMAGE_NAME}@${IMAGE_DIGEST}"
 
 echo "+++ examine the certificate"
