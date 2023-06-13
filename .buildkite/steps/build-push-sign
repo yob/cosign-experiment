@@ -29,3 +29,7 @@ cosign sign --yes --output-certificate fulcio.crt "${IMAGE_NAME}@${IMAGE_DIGEST}
 echo "+++ examine the certificate"
 
 openssl x509 -in fulcio.crt -text -noout
+
+echo "+++ cosign triangulate"
+
+cosign triangulate  "${IMAGE_NAME}"
