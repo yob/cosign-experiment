@@ -178,3 +178,16 @@ none of the expected identities matched what was in the certificate, got subject
 main.go:69: error during command execution: no matching signatures:
 none of the expected identities matched what was in the certificate, got subjects [https://buildkite.com/yob-opensource/cosign-experiment] with issuer https://agent.buildkite.com
 ```
+
+## Rekor
+
+Signatures created by cosign are also written to a public transparency log call
+rekor. This is to provide public proof that the signature was created at the
+time it said it was, and during the valid period for the short lived keypair
+created with the OIDC identity.
+
+You can see the rekor log in a webbrowser. Part of the `cosign sign` output looks like this:
+
+    tlog entry created with index: 24154069
+
+The log index can be converted to a URL: https://search.sigstore.dev/?logIndex=24154069
