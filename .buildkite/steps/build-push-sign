@@ -44,4 +44,4 @@ cosign triangulate  "${IMAGE_NAME}"
 
 echo "+++ cosign verify"
 
-$ cosign verify "${IMAGE_NAME}" --certificate-identity https://buildkite.com/yob-opensource/cosign-experiment --certificate-oidc-issuer https://agent.buildkite.com
+cosign verify "${IMAGE_NAME}" --certificate-identity https://buildkite.com/yob-opensource/cosign-experiment --certificate-oidc-issuer https://agent.buildkite.com
